@@ -15,18 +15,17 @@ const moduleEventEmitter = new NativeEventEmitter(NativeSafariViewManager);
  */
 
 export default {
-  show(options) {
+  show(options, resolveOn = 'onShow') {
     if (options && options.tintColor) {
       options.tintColor = processColor(options.tintColor);
     }
 
     return new Promise((resolve, reject) => {
+      this.once(resolveOn, resolve);
       NativeSafariViewManager.show(options, (error) => {
         if (error) {
           return reject(error);
         }
-
-        resolve(true);
       });
     });
   },
@@ -56,5 +55,13 @@ export default {
 
   removeEventListener(event, listener) {
     moduleEventEmitter.removeListener(event, listener);
+  },
+
+  once(event, callback) {
+    const listener = (payload) => {
+      callback(payload);
+      this.removeEventListener(event, listener);
+    };
+    this.addEventListener(event, listener);
   }
 };

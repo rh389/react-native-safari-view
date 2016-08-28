@@ -75,11 +75,13 @@ class YourComponent extends Component {
 
 ## Methods
 
-### show(safariOptions)
+### show(safariOptions, resolveOn)
 Displays a Safari View with the provided url.
 
 __Arguments__
 - `safariOptions` - An `Object` containing a `url` key and optionally a `readerMode` key and/or a `tintColor`.
+- `resolveOn` - A `String` containing an event name. The `Promise` returned by this call will resolve on the next firing
+of the specified event, with the event payload (if any). Defaults to `onShow`.
 
 __safariOptions__
 - `url` - A `String` containing the url you want to load in the Safari View
