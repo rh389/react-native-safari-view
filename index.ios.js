@@ -31,7 +31,10 @@ export default {
     });
   },
 
-  dismiss() {
+  dismiss(data) {
+    if (data !== undefined) {
+      return NativeSafariViewManager.dismissWithData(data);
+    }
     NativeSafariViewManager.dismiss();
   },
 
