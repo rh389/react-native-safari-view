@@ -53,7 +53,13 @@ RCT_EXPORT_METHOD(isAvailable:(RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(dismiss)
 {
-    [self safariViewControllerDidFinish:self.safariView];
+    NSLog(@"[SafariView] SafariView dismissed programmatically.");
+
+    if (self.hasListeners) {
+        [self sendEventWithName:@"onDismiss" body:@{@"dismissedByUser": @NO}];
+    }
+
+    [self.safariView dismissViewControllerAnimated:true completion:nil];
 }
 
 -(void)startObserving {
@@ -70,11 +76,10 @@ RCT_EXPORT_METHOD(dismiss)
 
 -(void)safariViewControllerDidFinish:(nonnull SFSafariViewController *)controller
 {
-    [controller dismissViewControllerAnimated:true completion:nil];
-    NSLog(@"[SafariView] SafariView dismissed.");
+    NSLog(@"[SafariView] SafariView dismissed by user.");
 
     if (self.hasListeners) {
-        [self sendEventWithName:@"onDismiss" body:nil];
+        [self sendEventWithName:@"onDismiss" body:@{@"dismissedByUser": @YES}];
     }
 }
 

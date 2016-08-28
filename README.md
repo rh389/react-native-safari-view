@@ -124,11 +124,16 @@ let showSubscription = SafariView.addEventListener(
 ```
 
 ### onDismiss
+__Payload__
+The `onDismiss` event carries an `Object` with the following property:
+- `dismissedByUser` - A `Boolean`, `true` if the user dismissed the view using the Done button, `false` if the application called `dismiss()`.
+
 __Example__
 ```js
 let dismissSubscription = SafariView.addEventListener(
   "onDismiss",
-  () => {
+  (payload) => {
+    console.log(payload.dismissedByUser);
     StatusBarIOS.setStyle("default");
   }
 );
